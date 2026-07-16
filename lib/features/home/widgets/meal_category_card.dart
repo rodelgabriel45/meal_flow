@@ -5,6 +5,7 @@ import 'package:mealflow/core/theme/app_shadows.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/widgets/category_icon.dart';
+import 'package:mealflow/features/home/widgets/meal_chip.dart';
 
 class MealCategoryCard extends StatelessWidget {
   final String category;
@@ -29,6 +30,7 @@ class MealCategoryCard extends StatelessWidget {
         boxShadow: AppShadows.small,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CategoryIcon(icon: icon, iconColor: iconColor),
 
@@ -44,7 +46,10 @@ class MealCategoryCard extends StatelessWidget {
               meals.isEmpty
                   ? const Text('No meals added yet.')
                   : Column(
-                      children: meals.map((meal) => Text(meal.title)).toList(),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: meals
+                          .map((meal) => MealChip(meal: meal))
+                          .toList(),
                     ),
             ],
           ),

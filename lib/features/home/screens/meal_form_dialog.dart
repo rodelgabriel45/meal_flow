@@ -8,19 +8,32 @@ import 'package:mealflow/features/home/providers/meal_provider.dart';
 import 'package:mealflow/features/home/widgets/category_icon.dart';
 import 'package:provider/provider.dart';
 
-class AddMealScreen extends StatefulWidget {
-  const AddMealScreen({super.key});
+class MealFormDialog extends StatefulWidget {
+  final String title;
+  final Meal? meal;
+  const MealFormDialog({super.key, required this.title, this.meal});
 
   @override
-  State<AddMealScreen> createState() => _AddMealScreenState();
+  State<MealFormDialog> createState() => _MealFormDialogState();
 }
 
-class _AddMealScreenState extends State<AddMealScreen> {
+class _MealFormDialogState extends State<MealFormDialog> {
   final _formKey = GlobalKey<FormState>();
-  final _mealNameController = TextEditingController();
-  final _caloriesController = TextEditingController();
+  late TextEditingController _mealNameController;
+  late TextEditingController _caloriesController;
 
-  MealCategory _selectedCategory = MealCategory.breakfast;
+  late MealCategory _selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedCategory = widget.meal?.category ?? MealCategory.breakfast;
+    _mealNameController = TextEditingController(text: widget.meal?.title ?? '');
+    _caloriesController = TextEditingController(
+      text: widget.meal?.calories.toString() ?? '',
+    );
+  }
 
   @override
   void dispose() {
@@ -30,7 +43,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
     super.dispose();
   }
 
-  void _addMeal() {
+  void _saveMeal() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -67,13 +80,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
                   ),
 
                   Text(
-                    'Add Meal',
+                    widget.title,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
 
                   IconButton(
                     onPressed: () {
-                      _addMeal();
+                      _saveMeal();
                     },
                     icon: const Icon(Icons.check),
                   ),
