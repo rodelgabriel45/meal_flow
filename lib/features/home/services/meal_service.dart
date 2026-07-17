@@ -29,4 +29,10 @@ class MealService {
 
     return (mealsJson as List).map((json) => Meal.fromJson(json)).toList();
   }
+
+  Future<void> clearMeals() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_key);
+  }
 }

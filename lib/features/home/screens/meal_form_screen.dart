@@ -3,21 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
+import 'package:mealflow/core/validators/app_validators.dart';
 import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/providers/meal_provider.dart';
 import 'package:mealflow/features/home/widgets/category_icon.dart';
 import 'package:provider/provider.dart';
 
-class MealFormDialog extends StatefulWidget {
-  final String title;
+class MealFormScreen extends StatefulWidget {
   final Meal? meal;
-  const MealFormDialog({super.key, required this.title, this.meal});
+  const MealFormScreen({super.key, this.meal});
 
   @override
-  State<MealFormDialog> createState() => _MealFormDialogState();
+  State<MealFormScreen> createState() => _MealFormScreenState();
 }
 
-class _MealFormDialogState extends State<MealFormDialog> {
+class _MealFormScreenState extends State<MealFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _mealNameController;
   late TextEditingController _caloriesController;
@@ -43,12 +43,8 @@ class _MealFormDialogState extends State<MealFormDialog> {
     super.dispose();
   }
 
-  void _saveMeal() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    context.read<MealProvider>().saveMeal(
+  void _addMeal() {
+    context.read<MealProvider>().addMeal(
       Meal(
         title: _mealNameController.text.trim(),
         calories: int.parse(_caloriesController.text),
@@ -57,6 +53,28 @@ class _MealFormDialogState extends State<MealFormDialog> {
     );
 
     Navigator.pop(context);
+  }
+
+  void _updateMeal() {
+    final updatedMeal = widget.meal!.copyWith(
+      title: _mealNameController.text.trim(),
+      calories: int.parse(_caloriesController.text),
+      category: _selectedCategory,
+    );
+
+    context.read<MealProvider>().updateMeal(updatedMeal);
+
+    Navigator.pop(context);
+  }
+
+  void _saveMeal() {
+    if (!_formKey.currentState!.validate()) return;
+
+    if (widget.meal == null) {
+      _addMeal();
+    } else {
+      _updateMeal();
+    }
   }
 
   @override
@@ -80,7 +98,7 @@ class _MealFormDialogState extends State<MealFormDialog> {
                   ),
 
                   Text(
-                    widget.title,
+                    widget.meal == null ? 'Add Meal' : 'Edit Meal',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
 
@@ -238,23 +256,10 @@ class _MealFormDialogState extends State<MealFormDialog> {
                       ),
                       AppSpacing.verticalSM,
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Please enter meal calories';
-                          }
-
-                          final calories = int.tryParse(value);
-
-                          if (calories == null) {
-                            return 'Calories must be a number';
-                          }
-
-                          if (calories <= 0) {
-                            return 'Calories must be greater than 0';
-                          }
-
-                          return null;
-                        },
+                        validator: (value) => AppValidators.positiveNumber(
+                          value,
+                          'meal calories',
+                        ),
                         controller: _caloriesController,
                         decoration: InputDecoration(hintText: 'kcal'),
                         keyboardType: TextInputType.number,

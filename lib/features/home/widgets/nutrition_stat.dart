@@ -7,16 +7,19 @@ class NutritionStat extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final VoidCallback? onPressed;
   const NutritionStat({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 40,
@@ -47,6 +50,20 @@ class NutritionStat extends StatelessWidget {
             ),
           ],
         ),
+
+        if (onPressed != null)
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              width: 24,
+              height: 24,
+              decoration: const BoxDecoration(
+                color: Colors.white24,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.add, size: 14, color: Colors.white),
+            ),
+          ),
       ],
     );
   }

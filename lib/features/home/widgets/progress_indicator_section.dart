@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
+import 'package:mealflow/features/home/providers/meal_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProgressIndicatorSection extends StatelessWidget {
   const ProgressIndicatorSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final progress = context.watch<MealProvider>().progress;
+
     return Expanded(
       child: Column(
         children: [
@@ -26,14 +30,14 @@ class ProgressIndicatorSection extends StatelessWidget {
                 width: 72,
                 height: 72,
                 child: CircularProgressIndicator(
-                  value: .75,
+                  value: progress,
                   color: AppColors.surface,
                   strokeWidth: 8,
                 ),
               ),
 
               Text(
-                '75%',
+                '${(progress * 100).toInt()} %',
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(color: AppColors.surface),

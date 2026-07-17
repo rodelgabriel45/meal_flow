@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/providers/meal_provider.dart';
-import 'package:mealflow/features/home/screens/meal_form_dialog.dart';
+import 'package:mealflow/features/home/screens/meal_form_screen.dart';
 import 'package:provider/provider.dart';
 
 class MealChip extends StatelessWidget {
@@ -15,26 +14,33 @@ class MealChip extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) =>
-                MealFormDialog(title: 'Edit Meal', meal: meal),
-          ),
+          MaterialPageRoute(builder: (context) => MealFormScreen(meal: meal)),
         );
       },
       child: Chip(
-        label: Row(
+        label: Column(
           children: [
-            Text(meal.title),
-            AppSpacing.horizontalXS,
+            Text(
+              meal.title,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                decoration: meal.isCompleted
+                    ? TextDecoration.lineThrough
+                    : null,
+              ),
+            ),
             Text(
               '${meal.calories} kcal',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
             ),
           ],
         ),
+
         deleteIcon: const Icon(Icons.close, size: 18),
         onDeleted: () {
-          context.read<MealProvider>().deleteMeal(meal);
+          context.read<MealProvider>().deleteMeal(meal.id);
         },
       ),
     );
