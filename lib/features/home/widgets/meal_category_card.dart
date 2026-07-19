@@ -14,12 +14,14 @@ class MealCategoryCard extends StatelessWidget {
   final List<Meal> meals;
   final IconData icon;
   final Color iconColor;
+  final DateTime date;
   const MealCategoryCard({
     super.key,
     required this.category,
     required this.meals,
     required this.icon,
     required this.iconColor,
+    required this.date,
   });
 
   @override
@@ -42,34 +44,34 @@ class MealCategoryCard extends StatelessWidget {
 
           AppSpacing.horizontalMD,
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category.displayName,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  category.displayName,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
 
-              AppSpacing.verticalSM,
+                AppSpacing.verticalSM,
 
-              meals.isEmpty
-                  ? const Text('No meals added yet.')
-                  : Wrap(
-                      spacing: 8,
-                      direction: Axis.vertical,
-                      children: meals
-                          .map((meal) => MealChip(meal: meal))
-                          .toList(),
-                    ),
-            ],
+                meals.isEmpty
+                    ? const Text('No meals added yet.')
+                    : Wrap(
+                        spacing: 8,
+                        direction: Axis.vertical,
+                        children: meals
+                            .map((meal) => MealChip(meal: meal))
+                            .toList(),
+                      ),
+              ],
+            ),
           ),
-
-          const Spacer(),
 
           Checkbox(
             value: completed,
             onChanged: (_) {
-              context.read<MealProvider>().toggleMealCategory(category);
+              context.read<MealProvider>().toggleMealCategory(category, date);
             },
           ),
         ],

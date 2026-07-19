@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-enum MealCategory { breakfast, lunch, dinner }
+enum MealCategory { breakfast, lunch, dinner, snack }
 
 extension MealCategoryExtension on MealCategory {
   String get displayName {
@@ -11,6 +11,8 @@ extension MealCategoryExtension on MealCategory {
         return 'Lunch';
       case MealCategory.dinner:
         return 'Dinner';
+      case MealCategory.snack:
+        return 'Snack';
     }
   }
 }
@@ -23,14 +25,22 @@ class Meal {
 
   final MealCategory category;
 
-  bool isCompleted;
+  final DateTime date;
+
+  final bool isCompleted;
+  final bool isFavorite;
+
+  final String? imagePath;
 
   Meal({
     String? id,
     required this.title,
     required this.calories,
     required this.category,
+    required this.date,
     this.isCompleted = false,
+    this.isFavorite = false,
+    this.imagePath,
   }) : id = id ?? Uuid().v4();
 
   Map<String, dynamic> toJson() {
@@ -39,7 +49,10 @@ class Meal {
       'title': title,
       'calories': calories,
       'category': category.name,
+      'date': date.toIso8601String(),
       'isCompleted': isCompleted,
+      'isFavorite': isFavorite,
+      'imagePath': imagePath,
     };
   }
 
@@ -51,7 +64,10 @@ class Meal {
       category: MealCategory.values.firstWhere(
         (c) => c.name == json['category'],
       ),
-      isCompleted: json['isCompleted'],
+      date: DateTime.parse(json['date']),
+      isCompleted: json['isCompleted'] ?? false,
+      isFavorite: json['isFavorite'] ?? false,
+      imagePath: json['imagePath'],
     );
   }
 
@@ -59,14 +75,30 @@ class Meal {
     String? title,
     int? calories,
     MealCategory? category,
+    DateTime? date,
     bool? isCompleted,
+    bool? isFavorite,
+    String? imagePath,
   }) {
     return Meal(
       id: id,
       title: title ?? this.title,
       calories: calories ?? this.calories,
       category: category ?? this.category,
+      date: date ?? this.date,
       isCompleted: isCompleted ?? this.isCompleted,
+      isFavorite: isFavorite ?? this.isFavorite,
+      imagePath: imagePath ?? this.imagePath,
     );
+  }
+
+  bool get hasImage => imagePath != null;
+
+  bool get isToday {
+    final now = DateTime.now();
+
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
   }
 }

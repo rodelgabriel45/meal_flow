@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
@@ -22,6 +24,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
+    final formattedDate = DateFormat('MMMM d, yyyy').format(today);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -51,14 +56,14 @@ class HomeScreen extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context, false);
+                                  context.pop(false);
                                 },
                                 child: const Text('Cancel'),
                               ),
 
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context, true);
+                                  context.pop(true);
                                 },
                                 child: const Text('Yes'),
                               ),
@@ -85,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
 
-              AppSpacing.verticalLG,
+              AppSpacing.verticalMD,
 
               Text(
                 'Good morning, Rod',
@@ -103,7 +108,7 @@ class HomeScreen extends StatelessWidget {
               AppSpacing.verticalMD,
 
               Text(
-                "Today's Meals",
+                "Today's Meals ($formattedDate)",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
 
@@ -114,10 +119,19 @@ class HomeScreen extends StatelessWidget {
                   builder: (context, provider, child) {
                     final breakfasts = provider.mealsByCategory(
                       MealCategory.breakfast,
+                      today,
                     );
-                    final lunch = provider.mealsByCategory(MealCategory.lunch);
+                    final lunch = provider.mealsByCategory(
+                      MealCategory.lunch,
+                      today,
+                    );
                     final dinner = provider.mealsByCategory(
                       MealCategory.dinner,
+                      today,
+                    );
+                    final snack = provider.mealsByCategory(
+                      MealCategory.snack,
+                      today,
                     );
 
                     return ListView(
@@ -127,6 +141,7 @@ class HomeScreen extends StatelessWidget {
                           meals: breakfasts,
                           icon: Icons.wb_sunny_outlined,
                           iconColor: AppColors.breakfast,
+                          date: today,
                         ),
 
                         AppSpacing.verticalSM,
@@ -136,6 +151,7 @@ class HomeScreen extends StatelessWidget {
                           meals: lunch,
                           icon: Icons.wb_sunny_outlined,
                           iconColor: AppColors.lunch,
+                          date: today,
                         ),
 
                         AppSpacing.verticalSM,
@@ -145,6 +161,17 @@ class HomeScreen extends StatelessWidget {
                           meals: dinner,
                           icon: Icons.dark_mode_outlined,
                           iconColor: AppColors.dinner,
+                          date: today,
+                        ),
+
+                        AppSpacing.verticalSM,
+
+                        MealCategoryCard(
+                          category: MealCategory.snack,
+                          meals: snack,
+                          icon: Icons.apple,
+                          iconColor: AppColors.snack,
+                          date: today,
                         ),
                       ],
                     );

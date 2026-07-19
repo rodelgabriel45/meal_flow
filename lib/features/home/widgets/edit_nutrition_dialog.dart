@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/core/validators/app_validators.dart';
 import 'package:mealflow/features/home/providers/nutrition_provider.dart';
@@ -82,7 +83,7 @@ class _EditNutritionDialogState extends State<EditNutritionDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
           },
           child: const Text('Cancel'),
         ),
@@ -98,7 +99,7 @@ class _EditNutritionDialogState extends State<EditNutritionDialog> {
               water: int.parse(_waterController.text),
             );
 
-            Navigator.pop(context);
+            context.pop();
           },
           child: const Text('Save'),
         ),

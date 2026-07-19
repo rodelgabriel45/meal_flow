@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
-import 'package:mealflow/features/home/screens/meal_form_screen.dart';
 
 class AddMealButton extends StatelessWidget {
   const AddMealButton({super.key});
@@ -18,10 +19,7 @@ class AddMealButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: AppRadius.medium),
         ),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MealFormScreen()),
-          );
+          context.push('/form', extra: MealFormArgs(date: DateTime.now()));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

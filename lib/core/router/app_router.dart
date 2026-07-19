@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/features/grocery/screens/grocery_screen.dart';
-import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/screens/home_screen.dart';
 import 'package:mealflow/features/home/screens/meal_form_screen.dart';
 import 'package:mealflow/features/navigation/screens/navigation_screen.dart';
@@ -32,8 +32,9 @@ class AppRouter {
       GoRoute(
         path: '/form',
         builder: (context, state) {
-          Meal? meal;
-          return MealFormScreen(meal: meal);
+          final args = state.extra as MealFormArgs;
+
+          return MealFormScreen(meal: args.meal, date: args.date);
         },
       ),
     ],

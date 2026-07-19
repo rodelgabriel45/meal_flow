@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
@@ -11,7 +12,8 @@ import 'package:provider/provider.dart';
 
 class MealFormScreen extends StatefulWidget {
   final Meal? meal;
-  const MealFormScreen({super.key, this.meal});
+  final DateTime date;
+  const MealFormScreen({super.key, this.meal, required this.date});
 
   @override
   State<MealFormScreen> createState() => _MealFormScreenState();
@@ -49,10 +51,11 @@ class _MealFormScreenState extends State<MealFormScreen> {
         title: _mealNameController.text.trim(),
         calories: int.parse(_caloriesController.text),
         category: _selectedCategory,
+        date: widget.date,
       ),
     );
 
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _updateMeal() {
@@ -64,7 +67,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
 
     context.read<MealProvider>().updateMeal(updatedMeal);
 
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _saveMeal() {
@@ -92,7 +95,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      context.pop();
                     },
                     icon: const Icon(Icons.close),
                   ),
@@ -210,6 +213,41 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       Text(
                         'Dinner',
                         style: _selectedCategory == MealCategory.dinner
+                            ? Theme.of(context).textTheme.labelLarge?.copyWith(
+                                color: AppColors.primary,
+                                decoration: TextDecoration.underline,
+                              )
+                            : null,
+                      ),
+                    ],
+                  ),
+
+                  AppSpacing.horizontalLG,
+
+                  Column(
+                    children: [
+                      InkWell(
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: AppRadius.large,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = MealCategory.snack;
+                          });
+                        },
+                        child: CategoryIcon(
+                          icon: _selectedCategory == MealCategory.snack
+                              ? Icons.apple
+                              : Icons.apple_outlined,
+                          iconColor: AppColors.snack,
+                        ),
+                      ),
+
+                      AppSpacing.verticalSM,
+
+                      Text(
+                        'Snack',
+                        style: _selectedCategory == MealCategory.snack
                             ? Theme.of(context).textTheme.labelLarge?.copyWith(
                                 color: AppColors.primary,
                                 decoration: TextDecoration.underline,

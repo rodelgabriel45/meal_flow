@@ -39,4 +39,12 @@ class NutritionService {
 
     await prefs.remove(_key);
   }
+
+  Future<void> resetWater() async {
+    final nutrition = await loadNutrition();
+
+    final updatedNutrition = nutrition.copyWith(currentWater: 0);
+
+    await saveNutrition(updatedNutrition);
+  }
 }
