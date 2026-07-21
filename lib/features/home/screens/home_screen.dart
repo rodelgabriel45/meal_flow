@@ -121,15 +121,15 @@ class HomeScreen extends StatelessWidget {
                       MealCategory.breakfast,
                       today,
                     );
-                    final lunch = provider.mealsByCategory(
+                    final lunches = provider.mealsByCategory(
                       MealCategory.lunch,
                       today,
                     );
-                    final dinner = provider.mealsByCategory(
+                    final dinners = provider.mealsByCategory(
                       MealCategory.dinner,
                       today,
                     );
-                    final snack = provider.mealsByCategory(
+                    final snacks = provider.mealsByCategory(
                       MealCategory.snack,
                       today,
                     );
@@ -148,7 +148,7 @@ class HomeScreen extends StatelessWidget {
 
                         MealCategoryCard(
                           category: MealCategory.lunch,
-                          meals: lunch,
+                          meals: lunches,
                           icon: Icons.wb_sunny_outlined,
                           iconColor: AppColors.lunch,
                           date: today,
@@ -158,7 +158,7 @@ class HomeScreen extends StatelessWidget {
 
                         MealCategoryCard(
                           category: MealCategory.dinner,
-                          meals: dinner,
+                          meals: dinners,
                           icon: Icons.dark_mode_outlined,
                           iconColor: AppColors.dinner,
                           date: today,
@@ -168,7 +168,7 @@ class HomeScreen extends StatelessWidget {
 
                         MealCategoryCard(
                           category: MealCategory.snack,
-                          meals: snack,
+                          meals: snacks,
                           icon: Icons.apple,
                           iconColor: AppColors.snack,
                           date: today,
