@@ -34,7 +34,11 @@ class AppRouter {
         builder: (context, state) {
           final args = state.extra as MealFormArgs;
 
-          return MealFormScreen(meal: args.meal, date: args.date);
+          return MealFormScreen(
+            meal: args.meal,
+            category: args.category,
+            date: args.date,
+          );
         },
       ),
     ],

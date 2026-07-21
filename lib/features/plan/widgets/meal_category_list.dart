@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/plan/widgets/meal_card.dart';
@@ -7,12 +9,16 @@ class MealCategoryList extends StatelessWidget {
   final String title;
   final IconData icon;
   final Color iconColor;
+  final DateTime date;
+  final MealCategory category;
   final List<Meal> meals;
   const MealCategoryList({
     super.key,
     required this.title,
     required this.icon,
     required this.iconColor,
+    required this.date,
+    required this.category,
     required this.meals,
   });
 
@@ -32,7 +38,15 @@ class MealCategoryList extends StatelessWidget {
               ],
             ),
 
-            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+            IconButton(
+              onPressed: () {
+                context.push(
+                  '/form',
+                  extra: MealFormArgs(date: date, category: category),
+                );
+              },
+              icon: const Icon(Icons.add),
+            ),
           ],
         ),
 

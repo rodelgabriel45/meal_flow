@@ -7,13 +7,20 @@ import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/core/validators/app_validators.dart';
 import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/providers/meal_provider.dart';
+import 'package:mealflow/features/home/widgets/add_favorite_button.dart';
 import 'package:mealflow/features/home/widgets/category_icon.dart';
 import 'package:provider/provider.dart';
 
 class MealFormScreen extends StatefulWidget {
   final Meal? meal;
+  final MealCategory? category;
   final DateTime date;
-  const MealFormScreen({super.key, this.meal, required this.date});
+  const MealFormScreen({
+    super.key,
+    this.meal,
+    this.category,
+    required this.date,
+  });
 
   @override
   State<MealFormScreen> createState() => _MealFormScreenState();
@@ -30,7 +37,9 @@ class _MealFormScreenState extends State<MealFormScreen> {
   void initState() {
     super.initState();
 
-    _selectedCategory = widget.meal?.category ?? MealCategory.breakfast;
+    _selectedCategory =
+        widget.meal?.category ?? widget.category ?? MealCategory.breakfast;
+
     _mealNameController = TextEditingController(text: widget.meal?.title ?? '');
     _caloriesController = TextEditingController(
       text: widget.meal?.calories.toString() ?? '',
@@ -122,9 +131,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                   Column(
                     children: [
                       InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: AppRadius.large,
-                        ),
+                        borderRadius: AppRadius.medium,
                         onTap: () {
                           setState(() {
                             _selectedCategory = MealCategory.breakfast;
@@ -157,9 +164,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                   Column(
                     children: [
                       InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: AppRadius.large,
-                        ),
+                        borderRadius: AppRadius.medium,
                         onTap: () {
                           setState(() {
                             _selectedCategory = MealCategory.lunch;
@@ -192,9 +197,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                   Column(
                     children: [
                       InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: AppRadius.large,
-                        ),
+                        borderRadius: AppRadius.medium,
                         onTap: () {
                           setState(() {
                             _selectedCategory = MealCategory.dinner;
@@ -227,9 +230,7 @@ class _MealFormScreenState extends State<MealFormScreen> {
                   Column(
                     children: [
                       InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: AppRadius.large,
-                        ),
+                        borderRadius: AppRadius.medium,
                         onTap: () {
                           setState(() {
                             _selectedCategory = MealCategory.snack;
@@ -310,6 +311,11 @@ class _MealFormScreenState extends State<MealFormScreen> {
                   ),
                 ),
               ),
+
+              AppSpacing.verticalMD,
+
+              if (widget.meal != null)
+                AddFavoriteButton(mealId: widget.meal!.id),
             ],
           ),
         ),

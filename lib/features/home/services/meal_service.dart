@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MealService {
   static const _key = 'meals';
 
+  // Meals
   Future<void> saveMeals(List<Meal> meals) async {
     final prefs = await SharedPreferences.getInstance();
 

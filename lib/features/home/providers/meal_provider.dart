@@ -12,6 +12,14 @@ class MealProvider extends ChangeNotifier {
   final List<Meal> _meals = [];
   List<Meal> get meals => List.unmodifiable(_meals);
 
+  List<Meal> favoriteMeals() {
+    final favorites = _meals.where((meal) => meal.isFavorite).toList();
+
+    favorites.sort((a, b) => b.date.compareTo(a.date));
+
+    return favorites;
+  }
+
   int get totalCalories {
     final todayMeals = _meals.where(
       (meal) => isSameDay(meal.date, DateTime.now()),
@@ -98,6 +106,20 @@ class MealProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> toggleFavorite(Meal meal) async {
+    final index = _meals.indexWhere((m) => m.id == meal.id);
+
+    if (index == -1) return;
+
+    final updatedMeal = meal.copyWith(isFavorite: !meal.isFavorite);
+
+    _meals[index] = updatedMeal;
+
+    await _mealService.saveMeals(_meals);
+
+    notifyListeners();
+  }
+
   Future<void> clearMeals() async {
     _meals.clear();
 
@@ -125,9 +147,15 @@ class MealProvider extends ChangeNotifier {
     await _appService.saveLastOpenedDate(today);
   }
 
-  List<Meal> mealsByCategory(MealCategory category, DateTime date) {
+  List<Meal> mealsByCategory(
+    MealCategory category,
+    DateTime date, {
+    bool favoritesOnly = false,
+  }) {
     return _meals.where((meal) {
-      return meal.category == category && isSameDay(meal.date, date);
+      return meal.category == category &&
+          isSameDay(meal.date, date) &&
+          (!favoritesOnly || meal.isFavorite);
     }).toList();
   }
 }
