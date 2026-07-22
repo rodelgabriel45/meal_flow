@@ -131,13 +131,32 @@ class MealPlanSection extends StatelessWidget {
                       builder: (context, provider, child) {
                         final favorites = provider.favoriteMeals();
 
-                        return ListView.separated(
-                          itemBuilder: (context, index) {
-                            return MealCard(meal: favorites[index]);
-                          },
-                          separatorBuilder: (_, _) => AppSpacing.verticalSM,
-                          itemCount: favorites.length,
-                        );
+                        return favorites.isEmpty
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '⭐ No favorite meals yet.',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge,
+                                  ),
+
+                                  AppSpacing.verticalMD,
+
+                                  Text(
+                                    'Tap "Save to Favorites" on a meal to see it here.',
+                                  ),
+                                ],
+                              )
+                            : ListView.separated(
+                                itemBuilder: (context, index) {
+                                  return MealCard(meal: favorites[index]);
+                                },
+                                separatorBuilder: (_, _) =>
+                                    AppSpacing.verticalSM,
+                                itemCount: favorites.length,
+                              );
                       },
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mealflow/core/router/widgets/meal_form_args.dart';
@@ -24,6 +25,22 @@ class MealCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget buildAnimatedMeal(Animation<double> animation, Meal meal) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, .08),
+          end: Offset.zero,
+        ).animate(animation),
+        child: FadeTransition(
+          opacity: animation,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: MealCard(key: ValueKey(meal.id), meal: meal),
+          ),
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,11 +80,18 @@ class MealCategoryList extends StatelessWidget {
             ),
           )
         else
-          ...meals.map(
-            (meal) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: MealCard(meal: meal),
-            ),
+          ImplicitlyAnimatedList<Meal>(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            items: meals,
+            areItemsTheSame: (oldItem, newItem) {
+              return oldItem.id == newItem.id;
+            },
+
+            itemBuilder: (context, animation, meal, i) =>
+                buildAnimatedMeal(animation, meal),
+            removeItemBuilder: (context, animation, meal) =>
+                buildAnimatedMeal(animation, meal),
           ),
       ],
     );

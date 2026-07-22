@@ -12,9 +12,9 @@ class WeekCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
-
-    final monday = today.subtract(Duration(days: today.weekday - 1));
+    final monday = selectedDate.subtract(
+      Duration(days: selectedDate.weekday - 1),
+    );
 
     bool isSameDay(DateTime a, DateTime b) {
       return a.year == b.year && a.month == b.month && a.day == b.day;
