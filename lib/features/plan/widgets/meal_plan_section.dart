@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
@@ -151,7 +153,21 @@ class MealPlanSection extends StatelessWidget {
                               )
                             : ListView.separated(
                                 itemBuilder: (context, index) {
-                                  return MealCard(meal: favorites[index]);
+                                  final favorite = favorites[index];
+
+                                  return MealCard(
+                                    meal: favorite,
+                                    onTap: () {
+                                      context.push(
+                                        '/form',
+                                        extra: MealFormArgs(
+                                          date: favorite.date,
+                                          meal: favorite,
+                                          isEditing: true,
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 separatorBuilder: (_, _) =>
                                     AppSpacing.verticalSM,

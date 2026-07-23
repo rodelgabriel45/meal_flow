@@ -15,7 +15,7 @@ class MealChip extends StatelessWidget {
       onTap: () {
         context.push(
           '/form',
-          extra: MealFormArgs(meal: meal, date: meal.date),
+          extra: MealFormArgs(meal: meal, date: meal.date, isEditing: true),
         );
       },
       child: Chip(
@@ -45,8 +45,37 @@ class MealChip extends StatelessWidget {
         ),
 
         deleteIcon: const Icon(Icons.close, size: 18),
-        onDeleted: () {
-          context.read<MealProvider>().deleteMeal(meal.id);
+        onDeleted: () async {
+          final shouldDelete = await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Delete Meal'),
+                content: const Text(
+                  'Are you sure you want to delete this meal?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      context.pop(false);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.pop(true);
+                    },
+                    child: const Text('Yes'),
+                  ),
+                ],
+              );
+            },
+          );
+          if (shouldDelete == true) {
+            if (!context.mounted) return;
+
+            context.read<MealProvider>().deleteMeal(meal.id);
+          }
         },
       ),
     );

@@ -71,6 +71,8 @@ class Meal {
     );
   }
 
+  static const _unset = Object();
+
   Meal copyWith({
     String? title,
     int? calories,
@@ -78,7 +80,8 @@ class Meal {
     DateTime? date,
     bool? isCompleted,
     bool? isFavorite,
-    String? imagePath,
+
+    Object? imagePath = _unset,
   }) {
     return Meal(
       id: id,
@@ -88,11 +91,12 @@ class Meal {
       date: date ?? this.date,
       isCompleted: isCompleted ?? this.isCompleted,
       isFavorite: isFavorite ?? this.isFavorite,
-      imagePath: imagePath ?? this.imagePath,
+
+      imagePath: imagePath == _unset ? this.imagePath : imagePath as String?,
     );
   }
 
-  bool get hasImage => imagePath != null;
+  bool get hasImage => imagePath != null && imagePath!.isNotEmpty;
 
   bool get isToday {
     final now = DateTime.now();

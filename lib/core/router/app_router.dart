@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/features/grocery/screens/grocery_screen.dart';
+import 'package:mealflow/features/home/screens/favorite_picker_screen.dart';
 import 'package:mealflow/features/home/screens/home_screen.dart';
 import 'package:mealflow/features/home/screens/meal_form_screen.dart';
 import 'package:mealflow/features/navigation/screens/navigation_screen.dart';
@@ -38,8 +39,14 @@ class AppRouter {
             meal: args.meal,
             category: args.category,
             date: args.date,
+            isEditing: args.isEditing,
           );
         },
+      ),
+
+      GoRoute(
+        path: '/favorite-picker',
+        builder: (context, state) => FavoritePickerScreen(),
       ),
     ],
   );

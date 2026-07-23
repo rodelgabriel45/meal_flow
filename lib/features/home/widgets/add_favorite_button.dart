@@ -4,15 +4,18 @@ import 'package:mealflow/features/home/providers/meal_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddFavoriteButton extends StatelessWidget {
-  final String mealId;
-  const AddFavoriteButton({super.key, required this.mealId});
+  final bool isFavorite;
+  final VoidCallback onPressed;
+  const AddFavoriteButton({
+    super.key,
+    required this.isFavorite,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MealProvider>(
       builder: (context, provider, child) {
-        final currentMeal = provider.meals.firstWhere((m) => m.id == mealId);
-
         return SizedBox(
           height: 56,
           width: double.infinity,
@@ -21,10 +24,8 @@ class AddFavoriteButton extends StatelessWidget {
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.surface,
             ),
-            onPressed: () {
-              provider.toggleFavorite(currentMeal);
-            },
-            child: Text(currentMeal.isFavorite ? 'Saved' : 'Save to favorites'),
+            onPressed: onPressed,
+            child: Text(isFavorite ? 'Saved' : 'Save to favorites'),
           ),
         );
       },

@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:mealflow/core/router/widgets/meal_form_args.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
+import 'package:mealflow/features/home/providers/meal_provider.dart';
+import 'package:mealflow/features/home/utils/add_meal_flow.dart';
 import 'package:mealflow/features/plan/widgets/meal_card.dart';
+import 'package:provider/provider.dart';
 
 class MealCategoryList extends StatelessWidget {
   final String title;
@@ -35,7 +38,19 @@ class MealCategoryList extends StatelessWidget {
           opacity: animation,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: MealCard(key: ValueKey(meal.id), meal: meal),
+            child: MealCard(
+              key: ValueKey(meal.id),
+              meal: meal,
+              onTap: () {
+                context.push(
+                  '/form',
+                  extra: MealFormArgs(date: date, meal: meal, isEditing: true),
+                );
+              },
+              onDelete: () {
+                context.read<MealProvider>().deleteMeal(meal.id);
+              },
+            ),
           ),
         ),
       );
@@ -57,9 +72,10 @@ class MealCategoryList extends StatelessWidget {
 
             IconButton(
               onPressed: () {
-                context.push(
-                  '/form',
-                  extra: MealFormArgs(date: date, category: category),
+                startAddMealFlow(
+                  context,
+                  date: DateTime.now(),
+                  category: category,
                 );
               },
               icon: const Icon(Icons.add),

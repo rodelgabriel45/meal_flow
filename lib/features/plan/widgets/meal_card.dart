@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealflow/core/router/widgets/meal_form_args.dart';
+import 'package:intl/intl.dart';
 import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_shadows.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/home/models/meal.dart';
-import 'package:mealflow/features/home/providers/meal_provider.dart';
 import 'package:mealflow/features/plan/widgets/meal_image.dart';
-import 'package:provider/provider.dart';
 
 class MealCard extends StatelessWidget {
   final Meal meal;
-  const MealCard({super.key, required this.meal});
+  final VoidCallback? onTap;
+  final VoidCallback? onDelete;
+  const MealCard({
+    super.key,
+    required this.meal,
+    required this.onTap,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          context.push(
-            '/form',
-            extra: MealFormArgs(date: meal.date, meal: meal),
-          );
-        },
+        onTap: onTap,
         borderRadius: AppRadius.large,
         child: Ink(
           padding: AppSpacing.cardPadding,
@@ -37,11 +37,11 @@ class MealCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: 72,
-                height: 72,
+                width: 100,
+                height: 100,
                 child: ClipRRect(
                   borderRadius: AppRadius.medium,
-                  child: MealImage(),
+                  child: MealImage(imagePath: meal.imagePath),
                 ),
               ),
 
@@ -61,6 +61,18 @@ class MealCard extends StatelessWidget {
 
                       AppSpacing.verticalSM,
 
+                      if (onDelete == null)
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                '${meal.category.displayName} • ${DateFormat('MMM d').format(meal.date)} ',
+                              ),
+                            ),
+                          ],
+                        ),
+
                       Text(
                         '${meal.calories} kcal',
                         style: Theme.of(
@@ -72,45 +84,44 @@ class MealCard extends StatelessWidget {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: IconButton(
-                  onPressed: () async {
-                    final shouldDelete = await showDialog<bool>(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Delete Meal'),
-                          content: const Text(
-                            'Are you sure you want to delete this meal?',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                context.pop(false);
-                              },
-                              child: const Text('Cancel'),
+              if (onDelete != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: IconButton(
+                    onPressed: () async {
+                      final shouldDelete = await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Delete Meal'),
+                            content: const Text(
+                              'Are you sure you want to delete this meal?',
                             ),
-                            TextButton(
-                              onPressed: () {
-                                context.pop(true);
-                              },
-                              child: const Text('Yes'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  context.pop(false);
+                                },
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context.pop(true);
+                                },
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
 
-                    if (shouldDelete == true) {
-                      if (!context.mounted) return;
-
-                      context.read<MealProvider>().deleteMeal(meal.id);
-                    }
-                  },
-                  icon: Icon(Icons.delete_outline),
+                      if (shouldDelete == true) {
+                        onDelete!();
+                      }
+                    },
+                    icon: Icon(Icons.delete_outline),
+                  ),
                 ),
-              ),
             ],
           ),
         ),
