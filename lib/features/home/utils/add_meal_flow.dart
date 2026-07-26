@@ -13,6 +13,7 @@ Future<void> startAddMealFlow(
     builder: (context) {
       return SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),

@@ -57,11 +57,15 @@ class MealCategoryCard extends StatelessWidget {
 
                 meals.isEmpty
                     ? const Text('No meals added yet.')
-                    : Wrap(
-                        spacing: 8,
-                        direction: Axis.vertical,
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: meals
-                            .map((meal) => MealChip(meal: meal))
+                            .map(
+                              (meal) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: MealChip(meal: meal),
+                              ),
+                            )
                             .toList(),
                       ),
               ],

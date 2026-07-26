@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Text('Clear Progress'),
+                        Text("Reset Today's Progress"),
                         AppSpacing.horizontalSM,
                         Icon(Icons.delete_forever),
                       ],

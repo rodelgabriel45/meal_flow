@@ -39,9 +39,9 @@ class AppBottomNavigation extends StatelessWidget {
           ),
 
           NavigationDestination(
-            icon: Icon(Icons.task_alt_outlined),
+            icon: Icon(Icons.calendar_today_outlined),
             label: 'Plan',
-            selectedIcon: Icon(Icons.task_alt),
+            selectedIcon: Icon(Icons.calendar_today),
           ),
 
           NavigationDestination(

@@ -7,10 +7,10 @@ class AppColors {
   // Brand Colors
   // =========================================================
 
-  static const Color primary = Color(0xFF2E7D32);
-  static const Color primaryLight = Color(0xFF81C784);
-  static const Color primaryDark = Color(0xFF1B5E20);
-  static const Color primaryContainer = Color(0xFFE8F5E9);
+  static const Color primary = Color(0xFF214D38);
+  static const Color primaryLight = Color(0xFF4F8B69);
+  static const Color primaryDark = Color(0xFF183A2B);
+  static const Color primaryContainer = Color(0xFFE9F2EC);
 
   // =========================================================
   // Background & Surface

@@ -40,24 +40,39 @@ class FavoritePickerScreen extends StatelessWidget {
 
               AppSpacing.verticalLG,
 
-              Expanded(
-                child: ListView.separated(
-                  itemCount: favorites.length,
-                  itemBuilder: (context, index) {
-                    final favorite = favorites[index];
+              favorites.isEmpty
+                  ? Column(
+                      children: [
+                        Text(
+                          '⭐ No favorite meals yet.',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
 
-                    return MealCard(
-                      meal: favorite,
-                      onTap: () {
-                        context.pop(favorite);
-                      },
-                    );
-                  },
-                  separatorBuilder: (_, _) {
-                    return AppSpacing.verticalMD;
-                  },
-                ),
-              ),
+                        AppSpacing.verticalMD,
+
+                        Text(
+                          'Tap "Save to Favorites" on a meal to see it here.',
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: ListView.separated(
+                        itemCount: favorites.length,
+                        itemBuilder: (context, index) {
+                          final favorite = favorites[index];
+
+                          return MealCard(
+                            meal: favorite,
+                            onTap: () {
+                              context.pop(favorite);
+                            },
+                          );
+                        },
+                        separatorBuilder: (_, _) {
+                          return AppSpacing.verticalMD;
+                        },
+                      ),
+                    ),
             ],
           ),
         ),

@@ -9,7 +9,7 @@ class CategoryIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
+    return Container(
       width: 60,
       height: 60,
       decoration: BoxDecoration(

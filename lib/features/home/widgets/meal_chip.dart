@@ -20,6 +20,7 @@ class MealChip extends StatelessWidget {
       },
       child: Chip(
         label: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               width: 120,
