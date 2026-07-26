@@ -5,6 +5,7 @@ import 'package:mealflow/core/theme/app_shadows.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/grocery/models/grocery_item.dart';
 import 'package:mealflow/features/grocery/providers/grocery_provider.dart';
+import 'package:mealflow/features/grocery/widgets/grocery_item_popup_menu.dart';
 import 'package:provider/provider.dart';
 
 class GroceryItemCard extends StatelessWidget {
@@ -48,7 +49,7 @@ class GroceryItemCard extends StatelessWidget {
 
           Text(item.quantityText),
 
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+          GroceryItemPopupMenu(item: item),
         ],
       ),
     );

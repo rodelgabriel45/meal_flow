@@ -109,7 +109,7 @@ class GroceryItem {
     GroceryStatus? status,
   }) {
     return GroceryItem(
-      id: id,
+      id: id ?? this.id,
       name: name ?? this.name,
       category: category ?? this.category,
       quantity: quantity ?? this.quantity,
@@ -123,7 +123,7 @@ class GroceryItem {
     return {
       'id': id,
       'name': name,
-      'category': category,
+      'category': category.name,
       'quantity': quantity,
       'unit': unit,
       'emoji': emoji,

@@ -17,11 +17,11 @@ class GroceryHeader extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: IconButton.filled(
             onPressed: () async {
-              final item = await showGroceryFormSheet(context);
+              final item = await showGroceryFormSheet(context, null);
 
-              if (!context.mounted) return;
+              if (!context.mounted || item == null) return;
 
-              context.read<GroceryProvider>().addItem(item);
+              await context.read<GroceryProvider>().addItem(item);
             },
             icon: Icon(Icons.add),
           ),

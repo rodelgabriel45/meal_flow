@@ -4,7 +4,8 @@ import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/grocery/models/grocery_item.dart';
 
 class GroceryFormSheet extends StatefulWidget {
-  const GroceryFormSheet({super.key});
+  final GroceryItem? item;
+  const GroceryFormSheet({super.key, this.item});
 
   @override
   State<GroceryFormSheet> createState() => _GroceryFormSheetState();
@@ -12,11 +13,24 @@ class GroceryFormSheet extends StatefulWidget {
 
 class _GroceryFormSheetState extends State<GroceryFormSheet> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _quantityController = TextEditingController();
-  final _unitController = TextEditingController();
+  late TextEditingController _nameController;
+  late TextEditingController _quantityController;
+  late TextEditingController _unitController;
 
-  GroceryCategory _selectedCategory = GroceryCategory.others;
+  late GroceryCategory _selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _nameController = TextEditingController(text: widget.item?.name ?? '');
+    _quantityController = TextEditingController(
+      text: widget.item?.quantity.toInt().toString() ?? '',
+    );
+    _unitController = TextEditingController(text: widget.item?.unit ?? '');
+
+    _selectedCategory = widget.item?.category ?? GroceryCategory.others;
+  }
 
   @override
   void dispose() {
@@ -37,9 +51,13 @@ class _GroceryFormSheetState extends State<GroceryFormSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Add Grocery Item',
+              widget.item != null ? 'Edit Grocery Item' : 'Add Grocery Item',
               style: Theme.of(context).textTheme.titleLarge,
             ),
+
+            AppSpacing.verticalMD,
+
+            const Divider(),
 
             AppSpacing.verticalMD,
 
@@ -113,13 +131,25 @@ class _GroceryFormSheetState extends State<GroceryFormSheet> {
                   if (!_formKey.currentState!.validate()) return;
 
                   context.pop(
-                    GroceryItem(
-                      name: _nameController.text.trim(),
-                      category: _selectedCategory,
-                      quantity: double.tryParse(_quantityController.text)!,
-                      unit: _unitController.text.trim(),
-                      emoji: _selectedCategory.emoji,
-                    ),
+                    widget.item == null
+                        ? GroceryItem(
+                            name: _nameController.text.trim(),
+                            category: _selectedCategory,
+                            quantity: double.tryParse(
+                              _quantityController.text,
+                            )!,
+                            unit: _unitController.text.trim(),
+                            emoji: _selectedCategory.emoji,
+                          )
+                        : widget.item!.copyWith(
+                            name: _nameController.text.trim(),
+                            category: _selectedCategory,
+                            quantity: double.tryParse(
+                              _quantityController.text,
+                            )!,
+                            unit: _unitController.text.trim(),
+                            emoji: _selectedCategory.emoji,
+                          ),
                   );
                 },
                 child: const Text('Save'),
