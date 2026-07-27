@@ -103,7 +103,22 @@ class SettingsSections extends StatelessWidget {
           SettingsTile(
             icon: Icons.info,
             title: 'About',
-            onTap: () => showEditNutritionDialog(context),
+            onTap: () {
+              showAboutDialog(
+                context: context,
+                applicationName: 'MealFlow',
+                applicationVersion: '1.0.0',
+                applicationIcon: const Icon(Icons.restaurant_menu, size: 48),
+                children: const [
+                  Text(
+                    'Smart Meal Planning Made Simple.\n\n'
+                    'MealFlow helps you plan meals, organize groceries, and stay on top of your nutrition goals through a clean, modern, and intuitive experience.\n\n'
+                    'Built with Flutter ❤️\n\n'
+                    'Developed by Rod Gabriel.',
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

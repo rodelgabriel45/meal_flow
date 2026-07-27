@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
 import 'package:mealflow/features/grocery/models/grocery_item.dart';
 import 'package:mealflow/features/grocery/widgets/grocery_item_card.dart';

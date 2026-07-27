@@ -10,6 +10,7 @@ import 'package:mealflow/features/home/widgets/add_meal_button.dart';
 import 'package:mealflow/features/home/widgets/meal_category_card.dart';
 import 'package:mealflow/features/home/widgets/progress_card.dart';
 import 'package:mealflow/features/home/widgets/show_nutrition_dialog.dart';
+import 'package:mealflow/features/settings/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final today = DateTime.now();
     final formattedDate = DateFormat('MMMM d, yyyy').format(today);
+    final user = context.watch<SettingsProvider>().user;
 
     return Scaffold(
       body: SafeArea(
@@ -86,7 +88,7 @@ class HomeScreen extends StatelessWidget {
               AppSpacing.verticalMD,
 
               Text(
-                'Good morning, Rod',
+                'Good morning, ${user.name}',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
 
