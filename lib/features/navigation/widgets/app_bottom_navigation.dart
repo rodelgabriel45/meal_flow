@@ -13,7 +13,7 @@ class AppBottomNavigation extends StatelessWidget {
       '/' => 0,
       '/plan' => 1,
       '/grocery' => 2,
-      '/profile' => 3,
+      '/settings' => 3,
       _ => 0,
     };
 
@@ -69,7 +69,7 @@ class AppBottomNavigation extends StatelessWidget {
               context.go('/grocery');
               break;
             case 3:
-              context.go('/profile');
+              context.go('/settings');
               break;
           }
         },

@@ -6,7 +6,7 @@ import 'package:mealflow/features/home/screens/home_screen.dart';
 import 'package:mealflow/features/home/screens/meal_form_screen.dart';
 import 'package:mealflow/features/navigation/screens/navigation_screen.dart';
 import 'package:mealflow/features/plan/screens/plan_screen.dart';
-import 'package:mealflow/features/profile/screens/profile_screen.dart';
+import 'package:mealflow/features/settings/screens/settings_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -24,8 +24,8 @@ class AppRouter {
             builder: (context, state) => GroceryScreen(),
           ),
           GoRoute(
-            path: '/profile',
-            builder: (context, state) => ProfileScreen(),
+            path: '/settings',
+            builder: (context, state) => SettingsScreen(),
           ),
         ],
       ),

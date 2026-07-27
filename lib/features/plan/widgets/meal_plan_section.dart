@@ -82,7 +82,7 @@ class MealPlanSection extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: AppRadius.medium,
                 border: Border.all(color: Colors.grey.shade300),
               ),
@@ -98,7 +98,9 @@ class MealPlanSection extends StatelessWidget {
 
                 labelColor: AppColors.surface,
 
-                unselectedLabelColor: Colors.black54,
+                unselectedLabelColor: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
 
                 tabs: const [
                   Tab(text: 'All Meals'),

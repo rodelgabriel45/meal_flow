@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mealflow/core/theme/app_colors.dart';
 import 'package:mealflow/core/theme/app_radius.dart';
 import 'package:mealflow/core/theme/app_shadows.dart';
 import 'package:mealflow/core/theme/app_spacing.dart';
@@ -19,7 +18,7 @@ class GroceryItemCard extends StatelessWidget {
       child: Container(
         padding: AppSpacing.cardPadding,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: Theme.of(context).cardColor,
           borderRadius: AppRadius.small,
           boxShadow: AppShadows.small,
         ),

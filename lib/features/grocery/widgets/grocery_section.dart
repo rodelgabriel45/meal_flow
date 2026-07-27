@@ -24,11 +24,17 @@ class GrocerySection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
 
               decoration: BoxDecoration(
-                color: AppColors.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(999),
               ),
 
-              child: Text('${items.length}'),
+              child: Text(
+                '${items.length}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),

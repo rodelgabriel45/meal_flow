@@ -38,7 +38,11 @@ class DayItem extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.5,
-                  color: isSelected ? Colors.white : Colors.black54,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
               const SizedBox(height: 2),
@@ -47,7 +51,11 @@ class DayItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ],

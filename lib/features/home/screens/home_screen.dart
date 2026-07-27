@@ -7,20 +7,13 @@ import 'package:mealflow/features/home/models/meal.dart';
 import 'package:mealflow/features/home/providers/meal_provider.dart';
 import 'package:mealflow/features/home/providers/nutrition_provider.dart';
 import 'package:mealflow/features/home/widgets/add_meal_button.dart';
-import 'package:mealflow/features/home/widgets/edit_nutrition_dialog.dart';
 import 'package:mealflow/features/home/widgets/meal_category_card.dart';
 import 'package:mealflow/features/home/widgets/progress_card.dart';
+import 'package:mealflow/features/home/widgets/show_nutrition_dialog.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  void showEditNutritionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const EditNutritionDialog(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
