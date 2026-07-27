@@ -51,9 +51,9 @@ class AppBottomNavigation extends StatelessWidget {
           ),
 
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.settings_outlined),
+            label: 'Settings',
+            selectedIcon: Icon(Icons.settings),
           ),
         ],
 

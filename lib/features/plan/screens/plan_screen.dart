@@ -21,6 +21,7 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   void pickDate() async {
+    debugPrint('BEGIIIIN PICK DATEEE');
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -28,11 +29,16 @@ class _PlanScreenState extends State<PlanScreen> {
       lastDate: DateTime(2035),
     );
 
+    debugPrint('AFTER AWAITIIIIING');
+
     if (pickedDate != null) {
+      debugPrint('NOT NULLLLLLLLLL');
       setState(() {
         selectedDate = pickedDate;
       });
     }
+
+    debugPrint('SELECTED DATEEEEEE: $selectedDate');
   }
 
   @override

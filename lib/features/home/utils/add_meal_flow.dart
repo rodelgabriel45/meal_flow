@@ -33,7 +33,7 @@ Future<void> startAddMealFlow(
 
                 context.push(
                   '/form',
-                  extra: MealFormArgs(date: DateTime.now(), category: category),
+                  extra: MealFormArgs(date: date, category: category),
                 );
               },
             ),

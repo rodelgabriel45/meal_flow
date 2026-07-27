@@ -72,11 +72,7 @@ class MealCategoryList extends StatelessWidget {
 
             IconButton(
               onPressed: () {
-                startAddMealFlow(
-                  context,
-                  date: DateTime.now(),
-                  category: category,
-                );
+                startAddMealFlow(context, date: date, category: category);
               },
               icon: const Icon(Icons.add),
             ),

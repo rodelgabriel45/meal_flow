@@ -14,43 +14,53 @@ class GroceryItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: AppSpacing.cardPadding,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: AppRadius.medium,
-        boxShadow: AppShadows.small,
-      ),
-      child: Row(
-        children: [
-          Checkbox(
-            value: item.isPurchased,
-            onChanged: (_) {
-              context.read<GroceryProvider>().toggleStatus(item.id);
-            },
-          ),
-
-          Text(item.emoji, style: const TextStyle(fontSize: 24)),
-
-          AppSpacing.horizontalMD,
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item.name, style: Theme.of(context).textTheme.titleMedium),
-
-                AppSpacing.verticalSM,
-
-                Text(item.category.displayName),
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Container(
+        padding: AppSpacing.cardPadding,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: AppRadius.small,
+          boxShadow: AppShadows.small,
+        ),
+        child: Row(
+          children: [
+            Checkbox(
+              value: item.isPurchased,
+              onChanged: (_) {
+                context.read<GroceryProvider>().toggleStatus(item.id);
+              },
             ),
-          ),
 
-          Text(item.quantityText),
+            Text(item.emoji, style: const TextStyle(fontSize: 24)),
 
-          GroceryItemPopupMenu(item: item),
-        ],
+            AppSpacing.horizontalMD,
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      decoration: item.isPurchased
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
+
+                  AppSpacing.verticalSM,
+
+                  Text(item.category.displayName),
+                ],
+              ),
+            ),
+
+            Text(item.quantityText),
+
+            GroceryItemPopupMenu(item: item),
+          ],
+        ),
       ),
     );
   }
